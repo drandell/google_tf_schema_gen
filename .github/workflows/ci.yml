@@ -1,0 +1,32 @@
+name: Update Schema JSON
+on:
+  schedule:
+    - cron:  '0 19 * * *'
+jobs:
+  get-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.3.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Fetch release version
+        id: google-tf
+        run: |
+          latest_tag=$(curl -sL https://api.github.com/repos/hashicorp/terraform-provider-google/releases/latest | jq -r ".tag_name")
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+          echo $latest_tag > google-tf.version
+      - name: Terraform Schema Generate 
+        id: init
+        run: | 
+          terraform init
+          terraform providers schema -json > schema.json
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+      - name: Commit latest release version
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'DannyRand'
+          git config --global user.email 'dannyrand@users.noreply.github.com'
+          git commit -am "New release version ${{ steps.google-tf.outputs.latest_tag }}"
+          git push
