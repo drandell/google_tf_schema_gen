@@ -1,7 +1,7 @@
 name: Update Schema JSON
 on:
   schedule:
-    - cron:  '0 19 * * *'
+    - cron:  '0 21 * * *'
 jobs:
   get-version:
     runs-on: ubuntu-latest
