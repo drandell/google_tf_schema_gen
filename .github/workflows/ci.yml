@@ -23,11 +23,12 @@ jobs:
           terraform providers schema -json > schema.json
       - name: Check for modified files
         id: git-check
-        run: echo ::set-output name=modified::$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+        run: echo "modified=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")" >> $GITHUB_OUTPUT
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
-          git config --global user.name 'DannyRand'
-          git config --global user.email 'dannyrand@users.noreply.github.com'
+          git config --global user.name 'drandell'
+          git config --global user.email 'drandell@users.noreply.github.com'
           git commit -am "New release version ${{ steps.google-tf.outputs.latest_tag }}"
           git push
