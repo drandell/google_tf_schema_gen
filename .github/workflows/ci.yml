@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3.3.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Fetch release version
         id: google-tf
         run: |
