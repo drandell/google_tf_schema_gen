@@ -23,7 +23,6 @@ jobs:
           terraform providers schema -json > schema.json
       - name: Check for modified files
         id: git-check
-          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
         run: echo "modified=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")" >> $GITHUB_OUTPUT
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
