@@ -19,7 +19,7 @@ jobs:
       - name: Terraform Schema Generate 
         id: init
         run: | 
-          terraform init
+          terraform init -upgrade
           terraform providers schema -json > schema.json
       - name: Check for modified files
         id: git-check
