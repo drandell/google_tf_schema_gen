@@ -17,13 +17,13 @@ jobs:
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
           echo $latest_tag > google-tf.version
       - name: Terraform Schema GA Generate 
-        id: init
+        id: gen-ga
         run: | 
           cd ga
           terraform init -upgrade
           terraform providers schema -json > ../ga-schema.json
       - name: Terraform Schema Beta Generate 
-        id: init
+        id: gen-beta
         run: | 
           cd beta
           terraform init -upgrade
