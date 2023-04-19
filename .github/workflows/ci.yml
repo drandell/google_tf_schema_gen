@@ -21,7 +21,7 @@ jobs:
         run: | 
           cd ga
           terraform init -upgrade
-          terraform providers schema -json > ga-schema.json
+          terraform providers schema -json > ../ga-schema.json
       - name: Terraform Schema Beta Generate 
         id: gen-beta
         run: | 
