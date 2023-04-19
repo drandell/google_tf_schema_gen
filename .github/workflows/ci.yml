@@ -21,13 +21,13 @@ jobs:
         run: | 
           cd ga
           terraform init -upgrade
-          terraform providers schema -json > ../ga-schema.json
+          terraform providers schema -json > ga-schema.json
       - name: Terraform Schema Beta Generate 
         id: gen-beta
         run: | 
           cd beta
           terraform init -upgrade
-          terraform providers schema -json > ../beta-schema.json
+          terraform providers schema -json > beta-schema.json
       - name: Check for modified files
         id: git-check
         run: echo "modified=$([ -z "`git status --porcelain`" ] && echo "false" || echo "true")" >> $GITHUB_OUTPUT
